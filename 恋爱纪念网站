@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌌 NEXUS·LOVE v2.0 • 恋爱元宇宙相册 • 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;600&display=swap');
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0033 50%, #000000 100%);
+            font-family: 'Inter', sans-serif;
+        }
+        .neon-text { text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff; }
+        .glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15); }
+        .photo-card { transition: all 0.4s cubic-bezier(0.23,1,0.32,1); }
+        .photo-card:hover { transform: scale(1.08) rotate(3deg); box-shadow: 0 0 40px #ff00ff; }
+        .scanline { animation: scan 4s linear infinite; }
+        @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(300%); } }
+        canvas { position: absolute; top: 0; left: 0; z-index: 0; pointer-events: none; }
+    </style>
+</head>
+<body class="min-h-screen text-white overflow-hidden relative">
+    <!-- 星空粒子背景 -->
+    <canvas id="stars" class="fixed inset-0"></canvas>
+
+    <div class="flex h-screen relative z-10">
+        <!-- 左侧全息侧边栏 -->
+        <div class="w-72 glass border-r border-cyan-500/30 flex flex-col">
+            <div class="p-6 border-b border-purple-500/30 flex items-center gap-3">
+                <div class="text-4xl">🌌</div>
+                <div>
+                    <h1 class="text-3xl font-bold tracking-wider neon-text">NEXUS·LOVE</h1>
+                    <p class="text-xs text-cyan-400">v2.0 • 量子记忆库 • 相识 428 天</p >
+                </div>
+                <button onclick="toggleTheme()" class="ml-auto text-2xl">🌗</button>
+            </div>
+            
+            <div class="p-4">
+                <div class="flex gap-2">
+                    <button onclick="switchTab(0)" class="tab flex-1 py-2 bg-gradient-to-r from-pink-500 to-cyan-500 rounded-2xl text-sm font-bold active">TIMELINE</button>
+                    <button onclick="switchTab(1)" class="tab flex-1 py-2 glass rounded-2xl text-sm">VAULT</button>
+                    <button onclick="switchTab(2)" class="tab flex-1 py-2 glass rounded-2xl text-sm">AI RECALL</button>
+                </div>
+            </div>
+
+            <nav class="flex-1 px-4 space-y-2 overflow-auto">
+                <div onclick="loadAlbum(0)" class="glass p-3 rounded-3xl flex gap-3 hover:border-cyan-400 cursor-pointer">
+                    <span class="text-3xl">🚀</span>
+                    <div>
+                        <div class="font-bold">初遇·量子碰撞</div>
+                        <div class="text-xs text-gray-400">2025.03 • 17 张 • 99% synced</div>
+                    </div>
+                </div>
+                <div onclick="loadAlbum(1)" class="glass p-3 rounded-3xl flex gap-3 hover:border-purple-400 cursor-pointer">
+                    <span class="text-3xl">🌃</span>
+                    <div>
+                        <div class="font-bold">夜游·霓虹之吻</div>
+                        <div class="text-xs text-gray-400">2026.01 • 42 张 • NFT级加密</div>
+                    </div>
+                </div>
+                <div onclick="loadAlbum(2)" class="glass p-3 rounded-3xl flex gap-3 hover:border-pink-400 cursor-pointer">
+                    <span class="text-3xl">🪐</span>
+                    <div>
+                        <div class="font-bold">旅行·星际蜜月</div>
+                        <div class="text-xs text-emerald-400">已备份至 Metaverse</div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="p-4 border-t border-white/10">
+                <button onclick="uploadNeon()" 
+                        class="w-full py-4 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 rounded-3xl font-bold flex items-center justify-center gap-2 hover:scale-105 active:scale-95">
+                    <i class="fas fa-rocket"></i> 上传新记忆 • 拖拽或语音
+                </button>
+                <input type="file" id="fileInput" multiple class="hidden" onchange="handleNeonUpload(event)">
+            </div>
+            <div class="text-center text-[10px] text-gray-500 py-3">🔒 端到端量子加密 • 仅你俩可见</div>
+        </div>
+
+        <!-- 主区域 -->
+        <div class="flex-1 flex flex-col">
+            <!-- HUD 头部 -->
+            <header class="glass border-b border-white/10 px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <select id="mode" onchange="changeMode()" class="bg-black/50 border border-cyan-400 text-cyan-300 px-4 py-1 rounded-full text-sm">
+                        <option>🌀 沉浸模式</option>
+                        <option>📍 实时同步</option>
+        
